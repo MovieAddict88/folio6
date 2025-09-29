@@ -6,13 +6,15 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // If config file doesn't exist, redirect to installer
-if (!file_exists('../config/config.php')) {
+if (!file_exists(__DIR__ . '/../config/config.php')) {
+    // Redirect to the installer
     header('Location: ../install.php');
     exit;
 }
 
-require_once '../config/config.php';
-require_once '../src/includes/database.php';
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../src/includes/database.php';
 
 // If user is not logged in, redirect to login page
 if (!isset($_SESSION['user_id'])) {

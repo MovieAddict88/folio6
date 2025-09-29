@@ -1,2 +1,4 @@
 /vendor/
 /config/config.php
+database.db
+composer-setup.php

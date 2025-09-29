@@ -1,12 +1,18 @@
 <?php
-// Make sure these constants are defined in your config.php
-if (!defined('DB_HOST')) {
-    die('Database configuration not found. Please run install.php');
+// Make sure the config file is loaded
+if (!file_exists(__DIR__ . '/../../config/config.php')) {
+    die('Configuration file not found. Please run install.php');
 }
+
+require_once __DIR__ . '/../../config/config.php';
 
 function db_connect() {
     try {
-        $dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        if (DB_TYPE === 'sqlite') {
+            $dbh = new PDO('sqlite:' . DB_PATH);
+        } else {
+            $dbh = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        }
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $dbh;
     } catch (PDOException $e) {

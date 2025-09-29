@@ -1,13 +1,6 @@
 <?php
-session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit;
-}
-
-require_once '../vendor/autoload.php';
-require_once '../src/includes/database.php';
+// This file is included from public/index.php.
+// Session, authentication, and autoloading are handled by index.php.
 
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
@@ -27,11 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dbh->beginTransaction();
 
         // Generate QR Code
-        $qr_code_path = '../public/qrcodes/' . $qr_code_id . '.png';
+        $qr_dir = 'qrcodes';
+        $qr_code_path = $qr_dir . '/' . $qr_code_id . '.png';
         
         // Ensure directory exists
-        if (!is_dir('../public/qrcodes')) {
-            mkdir('../public/qrcodes', 0755, true);
+        if (!is_dir($qr_dir)) {
+            mkdir($qr_dir, 0755, true);
         }
 
         $result = Builder::create()
